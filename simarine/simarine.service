@@ -1,0 +1,22 @@
+[Unit]
+Description=Simarine Pico Monitor
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ridge
+WorkingDirectory=/home/ridge/van-tools/simarine
+ExecStart=/usr/bin/python3 monitor.py
+Restart=always
+RestartSec=5
+Environment=LOG_INTERVAL_S=60
+Environment=HTTP_PORT=8080
+
+# Hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/home/ridge/van-tools/simarine
+
+[Install]
+WantedBy=multi-user.target
