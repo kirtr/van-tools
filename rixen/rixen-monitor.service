@@ -1,0 +1,33 @@
+[Unit]
+Description=Rixen/Espar AP Edge Monitor
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ridge
+Group=ridge
+WorkingDirectory=/home/ridge/van-tools/rixen
+Environment=PYTHONUNBUFFERED=1
+Environment=RIXEN_INTERFACE=wlx9cefd5f9631f
+Environment=RIXEN_SSID=Rixen000000
+Environment=RIXEN_HOST=10.10.10.10
+Environment=POLL_INTERVAL_S=15
+Environment=HTTP_PORT=8081
+Environment=DB_PATH=/var/lib/rixen-monitor/rixen.db
+Environment=STATE_PATH=/var/lib/rixen-monitor/runtime_state.json
+Environment=FUEL_RATE_GPH=0.08
+Environment=STALE_AFTER_S=600
+ExecStart=/usr/bin/python3 /home/ridge/van-tools/rixen/monitor.py
+Restart=always
+RestartSec=5
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/var/lib/rixen-monitor
+ReadWritePaths=/home/ridge/van-tools/rixen
+
+[Install]
+WantedBy=multi-user.target
